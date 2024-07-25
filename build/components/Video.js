@@ -133,11 +133,18 @@ var VideoPop = function (_Component) {
             this.setState({
                 top: ~~(window.scrollY + node.top)
             });
-            Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
-                get: function get() {
-                    return !!(this.currentTime > 0 && !this.paused && !this.ended && this.readyState > 2);
-                }
-            });
+            if (!('playing' in HTMLMediaElement.prototype)) {
+                Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
+                    get: function() {
+                        return !!(
+                            this.currentTime > 0 &&
+                            !this.paused &&
+                            !this.ended &&
+                            this.readyState > 2
+                        );
+                    }
+                });
+            }
         }
     }, {
         key: 'render',
